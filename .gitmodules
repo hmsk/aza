@@ -1,0 +1,3 @@
+[submodule "packages/meta/src/vendor/japanese-addresses"]
+	path = packages/meta/src/vendor/japanese-addresses
+	url = https://github.com/geolonia/japanese-addresses.git

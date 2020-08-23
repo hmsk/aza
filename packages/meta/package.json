@@ -1,0 +1,26 @@
+{
+  "name": "aza-meta",
+  "version": "0.0.0",
+  "description": "importable meta data of geolonia/japanese-addresses",
+  "author": "hmsk <k.hamasaki@gmail.com>",
+  "homepage": "https://github.com/hmsk/aza#readme",
+  "license": "MIT",
+  "main": "dist/index.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/hmsk/aza.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/hmsk/aza/issues"
+  }
+}
