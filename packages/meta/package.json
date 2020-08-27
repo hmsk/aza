@@ -24,6 +24,7 @@
     "url": "https://github.com/hmsk/aza/issues"
   },
   "devDependencies": {
+    "csv-parser": "^2.3.3",
     "ts-node": "^9.0.0"
   }
 }
