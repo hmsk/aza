@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "build:meta": "npm --prefix packages/meta run build",
     "dev:meta": "npm --prefix packages/meta run dev",
     "dev:demo": "npm --prefix packages/demo run dev"
   },
