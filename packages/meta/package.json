@@ -16,7 +16,7 @@
   "scripts": {
     "dev": "tsc -w -p .",
     "build": "npm run build:tree && npm run build:module",
-    "build:module": "rm -rf dist && tsc -p .",
+    "build:module": "rm -rf dist && tsc -p . && cp src/vendor/*.json dist/",
     "build:tree": "ts-node bin/buildTrees.ts",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
