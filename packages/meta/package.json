@@ -15,10 +15,15 @@
   },
   "scripts": {
     "dev": "tsc -w -p .",
-    "build": "rm -rf dist && tsc -p .",
+    "build": "npm run build:tree && npm run build:module",
+    "build:module": "rm -rf dist && tsc -p .",
+    "build:tree": "ts-node bin/buildTrees.ts",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
     "url": "https://github.com/hmsk/aza/issues"
+  },
+  "devDependencies": {
+    "ts-node": "^9.0.0"
   }
 }
