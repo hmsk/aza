@@ -2,6 +2,8 @@ import { createReadStream, writeFileSync } from 'fs'
 import { join } from 'path'
 import csv from 'csv-parser'
 
+import { AzaMeta, AzaTree } from '../src'
+
 const ORIGINAL_DATA_FILE = join(__dirname, '..', 'src/vendor/japanese-addresses/data/latest.csv')
 const TREE_FILE = join(__dirname, '..', 'src/vendor/japanese-addresses.json')
 
@@ -18,18 +20,6 @@ interface JapaneseAddress {
   '大字町丁目名': string
   '緯度': string
   '経度': string
-}
-
-type AzaTree = {
-  [branch: string]: AzaTree
-} & {
-  leaf?: AzaMeta
-}
-
-interface AzaMeta {
-  id: string
-  latitude: number
-  longitude: number
 }
 
 const appendTree = (branch: AzaTree, [head, ...rest]: string[], leafMeta: AzaMeta) => {
