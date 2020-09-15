@@ -6,7 +6,7 @@
     "build:meta": "yarn --cwd packages/meta run build",
     "dev:meta": "yarn --cwd packages/meta run dev",
     "dev:demo": "yarn --cwd packages/demo run dev",
-    "vercel": "./vercel-submodule-workaround.sh && lerna run build"
+    "vercel": "./vercel-submodule-workaround.sh && lerna run build && cp node_modules/aza-meta/dist/japanese-addresses.json packages/demo/.next/serverless/pages/api/"
   },
   "devDependencies": {
     "lerna": "^3.22.1",
