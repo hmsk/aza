@@ -20,6 +20,7 @@
     "url": "https://github.com/hmsk/aza/issues"
   },
   "dependencies": {
+    "aza-meta": "^0.0.1",
     "next": "^9.5.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"

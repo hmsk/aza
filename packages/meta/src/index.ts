@@ -13,7 +13,7 @@ export interface AzaMeta {
   longitude: number
 }
 
-interface AzaMetaWithName extends AzaMeta {
+export interface AzaMetaWithName extends AzaMeta {
   name: string
 }
 
@@ -38,7 +38,8 @@ const gatherLeafs = (tree: AzaTree): AzaMetaWithName[] => {
   })
   return results
 }
-const searchTerm = '下到津'
-const closestTree = walkTree(address, searchTerm.split(''))
-console.log('search with:', searchTerm)
-console.log(gatherLeafs(closestTree).map((leaf) => ({ ...leaf, name: searchTerm + leaf.name })))
+
+export const search = (term: string): AzaMetaWithName[] => {
+  const closestTree = walkTree(address, term.split(''))
+  return gatherLeafs(closestTree).map((leaf) => ({ ...leaf, name: term + leaf.name }))
+}

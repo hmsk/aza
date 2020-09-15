@@ -1,11 +1,12 @@
 {
   "name": "aza-meta",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "importable meta data of geolonia/japanese-addresses",
   "author": "Kengo Hamasaki <k.hamasaki@gmail.com>",
   "homepage": "https://github.com/hmsk/aza#readme",
   "license": "MIT",
-  "main": "dist/index.ts",
+  "main": "dist/index.js",
+  "typ": "dist/index.d.ts",
   "files": [
     "dist"
   ],
