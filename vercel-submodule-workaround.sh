@@ -1,3 +1,4 @@
+#!/bin/bash
 # Thanks to https://thesearemyramblings.com/1337/vercel-submodules-workaround/
 # repo paths (supplied without the protocol prefix)
 MAIN_REPO=github.com/hmsk/aza.git
