@@ -2,12 +2,14 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "build:meta": "npm --prefix packages/meta run build",
-    "dev:meta": "npm --prefix packages/meta run dev",
-    "dev:demo": "npm --prefix packages/demo run dev"
+    "postinstall": "lerna bootstrap",
+    "build:meta": "yarn --cwd packages/meta run build",
+    "dev:meta": "yarn --cwd packages/meta run dev",
+    "dev:demo": "yarn --cwd packages/demo run dev"
   },
   "devDependencies": {
     "lerna": "^3.22.1",
     "typescript": "^4.0.2"
-  }
+  },
+  "workspaces": ["packages/*"]
 }
