@@ -5,7 +5,8 @@
     "postinstall": "lerna bootstrap",
     "build:meta": "yarn --cwd packages/meta run build",
     "dev:meta": "yarn --cwd packages/meta run dev",
-    "dev:demo": "yarn --cwd packages/demo run dev"
+    "dev:demo": "yarn --cwd packages/demo run dev",
+    "vercel": "./vercel-submodule-workaround.sh && lerna run build"
   },
   "devDependencies": {
     "lerna": "^3.22.1",
