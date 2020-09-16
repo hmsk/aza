@@ -1,4 +1,5 @@
-import { addresses } from './vendor.js' //@ts-ignore
+// @ts-ignore
+import { addresses } from './vendor.js'
 
 export type AzaTree = {
   [branch: string]: AzaTree
@@ -38,5 +39,6 @@ const gatherLeafs = (tree: AzaTree): AzaMetaWithName[] => {
 
 export const search = (term: string): AzaMetaWithName[] => {
   const closestTree = walkTree(addresses as AzaTree, term.split(''))
+  if (Object.keys(closestTree).length === Object.keys(addresses).length) return []
   return gatherLeafs(closestTree).map((leaf) => ({ ...leaf, name: term + leaf.name }))
 }
