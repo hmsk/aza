@@ -15,9 +15,9 @@
     "url": "git+ssh://git@github.com/hmsk/aza.git"
   },
   "scripts": {
-    "dev": "tsc -w -p .",
+    "dev": "rollup -c -w",
     "build": "npm run build:tree && npm run build:module",
-    "build:module": "rm -rf dist && tsc -p . && cp src/vendor/*.json dist/",
+    "build:module": "rollup -c && cp src/vendor/*.json dist/",
     "build:tree": "ts-node bin/buildTrees.ts",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
@@ -25,7 +25,12 @@
     "url": "https://github.com/hmsk/aza/issues"
   },
   "devDependencies": {
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-typescript": "^6.0.0",
     "csv-parser": "^2.3.3",
-    "ts-node": "^9.0.0"
+    "rollup": "^2.27.0",
+    "ts-node": "^9.0.0",
+    "tslib": "^2.0.1"
   }
 }
