@@ -17,7 +17,7 @@
   "scripts": {
     "dev": "rollup -c -w",
     "build": "npm run build:tree && npm run build:module",
-    "build:module": "rollup -c && cp src/vendor/*.json dist/",
+    "build:module": "rollup -c",
     "build:tree": "ts-node bin/buildTrees.ts",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },

@@ -1,5 +1,4 @@
-import { readFileSync } from 'fs'
-import { join } from 'path'
+import { addresses } from './vendor.js' //@ts-ignore
 
 export type AzaTree = {
   [branch: string]: AzaTree
@@ -16,8 +15,6 @@ export interface AzaMeta {
 export interface AzaMetaWithName extends AzaMeta {
   name: string
 }
-
-const address: AzaTree = JSON.parse(readFileSync(join(__dirname, 'japanese-addresses.json'), 'utf-8'))
 
 const walkTree = (tree: AzaTree, [head, ...rest]: string[]): AzaTree => {
   if (tree[head]) {
@@ -40,6 +37,6 @@ const gatherLeafs = (tree: AzaTree): AzaMetaWithName[] => {
 }
 
 export const search = (term: string): AzaMetaWithName[] => {
-  const closestTree = walkTree(address, term.split(''))
+  const closestTree = walkTree(addresses as AzaTree, term.split(''))
   return gatherLeafs(closestTree).map((leaf) => ({ ...leaf, name: term + leaf.name }))
 }
