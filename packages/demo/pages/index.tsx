@@ -3,7 +3,7 @@ import { AzaMetaWithName } from 'aza-meta'
 
 const Index: FunctionComponent = () => {
   const [result, setResult] = useState<AzaMetaWithName[]>([])
-  const [term, setTerm] = useState('')
+  const [term, setTerm] = useState('白金台')
 
   useEffect(() => {
     fetch(`/api/search?term=${term}`)
@@ -16,7 +16,8 @@ const Index: FunctionComponent = () => {
   return(
     <div>
       <h1>aza demo</h1>
-      <input type="text" onChange={e => setTerm(e.target.value)} />
+      <input type="text" value={term} onChange={e => setTerm(e.currentTarget.value)} />
+      <p>Total: {result.length}</p>
       <ul>
         { result.map(res => {
           return <li key={res.id}>{res.id} - {res.name}</li>
