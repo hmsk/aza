@@ -2,10 +2,11 @@ import { createReadStream, writeFileSync } from 'fs'
 import { join } from 'path'
 import csv from 'csv-parser'
 
-import { AzaMeta, AzaTree } from '../src'
+import { AzaMeta, AzaTree, PrefectureTree } from '../src'
 
 const ORIGINAL_DATA_FILE = join(__dirname, '..', 'src/vendor/japanese-addresses/data/latest.csv')
-const TREE_FILE = join(__dirname, '..', 'src/vendor/japanese-addresses.json')
+const AZA_TREE_FILE = join(__dirname, '..', 'src/vendor/japanese-addresses-aza.json')
+const MUNICIPALITY_TREE_FILE = join(__dirname, '..', 'src/vendor/japanese-addresses-municipality.json')
 
 interface JapaneseAddress {
   '都道府県コード': string
@@ -32,12 +33,26 @@ const appendTree = (branch: AzaTree, [head, ...rest]: string[], leafMeta: AzaMet
 }
 
 const tree: AzaTree = {}
+const prefectures: PrefectureTree = {}
 createReadStream(ORIGINAL_DATA_FILE)
   .pipe(csv())
   .on('data', (line: JapaneseAddress) => {
     const azaChars = line['大字町丁目名'].split('')
     appendTree(tree, azaChars, { id: line['大字町丁目コード'], latitude: Number(line['緯度']), longitude: Number(line['経度']) })
+
+    if (!prefectures[line['都道府県コード']]) {
+      prefectures[line['都道府県コード']] = {
+        name: line['都道府県名'],
+        municipalities: {}
+      }
+    }
+    if (!prefectures[line['都道府県コード']].municipalities[line['市区町村コード']]) {
+      prefectures[line['都道府県コード']].municipalities[line['市区町村コード']] = {
+        name: line['市区町村名']
+      }
+    }
   })
   .on('end', () => {
-    writeFileSync(TREE_FILE, JSON.stringify(tree))
+    writeFileSync(AZA_TREE_FILE, JSON.stringify(tree))
+    writeFileSync(MUNICIPALITY_TREE_FILE, JSON.stringify(prefectures))
   })

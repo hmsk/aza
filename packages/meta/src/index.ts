@@ -1,5 +1,5 @@
 // @ts-ignore
-import { addresses } from './vendor.js'
+import { addresses, municipalities } from './vendor.js'
 
 export type AzaTree = {
   [branch: string]: AzaTree
@@ -13,8 +13,21 @@ export interface AzaMeta {
   longitude: number
 }
 
+export interface PrefectureTree {
+  [prefectureCode :string]: {
+    name: string
+    municipalities: {
+      [municipalityCode: string]: {
+        name: string
+      }
+    }
+  }
+}
+
 export interface AzaMetaWithName extends AzaMeta {
   name: string
+  prefecture?: string
+  municipality?: string
 }
 
 const walkTree = (tree: AzaTree, [head, ...rest]: string[]): AzaTree => {
@@ -39,7 +52,21 @@ const gatherLeafs = (tree: AzaTree): AzaMetaWithName[] => {
   return results
 }
 
+const getMunicipality = (azaCode: string): { prefecture: string, municipality: string } => {
+  console.log(azaCode)
+  const prefectureRoot = (municipalities as PrefectureTree)[azaCode.substring(0, 2)]
+  const municipalityRoot = prefectureRoot.municipalities[azaCode.substring(0, 5)]
+
+  return {
+    prefecture: prefectureRoot.name,
+    municipality: municipalityRoot?.name ?? azaCode.substring(0, 5)
+  }
+}
+
 export const search = (term: string): AzaMetaWithName[] => {
   const closestTree = walkTree(addresses as AzaTree, term.split(''))
-  return gatherLeafs(closestTree).map((leaf) => ({ ...leaf, name: term + leaf.name }))
+  return gatherLeafs(closestTree).map((leaf) => {
+    const { prefecture, municipality } = getMunicipality(leaf.id)
+    return { ...leaf, name: term + leaf.name, prefecture, municipality }
+  });
 }
