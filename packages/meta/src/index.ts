@@ -53,7 +53,6 @@ const gatherLeafs = (tree: AzaTree): AzaMetaWithName[] => {
 }
 
 const getMunicipality = (azaCode: string): { prefecture: string, municipality: string } => {
-  console.log(azaCode)
   const prefectureRoot = (municipalities as PrefectureTree)[azaCode.substring(0, 2)]
   const municipalityRoot = prefectureRoot.municipalities[azaCode.substring(0, 5)]
 
