@@ -20,7 +20,7 @@ const Index: FunctionComponent = () => {
       <p>Total: {result.length}</p>
       <ul>
         { result.map(res => {
-          return <li key={res.id}>{res.id} - {res.name}</li>
+          return <li key={res.id}>{res.name}（{res.prefecture} {res.municipality}）</li>
         })}
       </ul>
     </div>
