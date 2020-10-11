@@ -42,7 +42,8 @@ createReadStream(ORIGINAL_DATA_FILE)
   .on('data', (line: JapaneseAddress) => {
     const azaChars = line['大字町丁目名'].split('')
     appendTree(tree, azaChars, { id: line['大字町丁目コード'], latitude: Number(line['緯度']), longitude: Number(line['経度']) })
-
+  })
+  .on('data', (line: JapaneseAddress) => {
     if (!prefectures[line['都道府県コード']]) {
       prefectures[line['都道府県コード']] = {
         name: line['都道府県名'],
