@@ -4,7 +4,7 @@ import { addresses, municipalities } from './vendor.js'
 export type AzaTree = {
   [branch: string]: AzaTree
 } & {
-  leaf?: AzaMeta
+  leaf?: AzaMeta[]
 }
 
 export interface AzaMeta {
@@ -44,7 +44,9 @@ const gatherLeafs = (tree: AzaTree): AzaMetaWithName[] => {
   const results: AzaMetaWithName[] = []
   Object.keys(tree).forEach(key => {
     if (key === 'leaf') {
-      results.push({ ...tree.leaf as AzaMeta, name: '' })
+      tree.leaf?.forEach((l) => {
+        results.push({ ...l, name: '' })
+      })
     } else {
       results.push(...gatherLeafs(tree[key]).map(leaf => ({ ...leaf, name: key + leaf.name })))
     }

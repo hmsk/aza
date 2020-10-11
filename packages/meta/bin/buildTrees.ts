@@ -26,7 +26,10 @@ interface JapaneseAddress {
 const appendTree = (branch: AzaTree, [head, ...rest]: string[], leafMeta: AzaMeta) => {
   if (!branch[head]) branch[head] = {}
   if (rest.length === 0) {
-    branch[head].leaf = leafMeta
+    if (!branch[head].leaf) {
+      branch[head].leaf = []
+    }
+    branch[head].leaf?.push(leafMeta)
   } else {
     appendTree(branch[head], rest, leafMeta)
   }
