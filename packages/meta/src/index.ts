@@ -26,6 +26,7 @@ export interface PrefectureTree {
 
 export interface AzaMetaWithName extends AzaMeta {
   name: string
+  editDistance?: number
   prefecture?: string
   municipality?: string
 }
@@ -68,6 +69,6 @@ export const search = (term: string): AzaMetaWithName[] => {
   const closestTree = walkTree(addresses as AzaTree, term.split(''))
   return gatherLeafs(closestTree).map((leaf) => {
     const { prefecture, municipality } = getMunicipality(leaf.id)
-    return { ...leaf, name: term + leaf.name, prefecture, municipality }
-  });
+    return { ...leaf, name: term + leaf.name, editDistance: leaf.name.length, prefecture, municipality }
+  }).sort((a, b) => a.editDistance - b.editDistance);
 }
