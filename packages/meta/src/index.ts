@@ -66,9 +66,25 @@ const getMunicipality = (azaCode: string): { prefecture: string, municipality: s
 }
 
 export const search = (term: string): AzaMetaWithName[] => {
-  const closestTree = walkTree(addresses as AzaTree, term.split(''))
-  return gatherLeafs(closestTree).map((leaf) => {
+  const resultLeafs = gatherLeafs(walkTree(addresses as AzaTree, term.split(''))).map((leaf) => {
     const { prefecture, municipality } = getMunicipality(leaf.id)
     return { ...leaf, name: term + leaf.name, editDistance: leaf.name.length, prefecture, municipality }
-  }).sort((a, b) => a.editDistance - b.editDistance);
+  })
+
+  const resultLeafsWithOhaza = gatherLeafs(walkTree(addresses as AzaTree, ('大字' + term).split(''))).map((leaf) => {
+    const { prefecture, municipality } = getMunicipality(leaf.id)
+    return { ...leaf, name: '大字' + term + leaf.name, editDistance: leaf.name.length, prefecture, municipality }
+  })
+
+  return [...resultLeafs, ...resultLeafsWithOhaza].sort((a, b) => {
+    if (a.editDistance === b.editDistance) {
+      if (a.municipality === b.municipality) {
+        return a.id < b.id ? -1 : 1
+      } else {
+        return a.municipality < b.municipality ? -1 : 1
+      }
+    } else {
+      return a.editDistance - b.editDistance
+    }
+  })
 }
