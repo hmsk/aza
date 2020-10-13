@@ -65,15 +65,26 @@ const getMunicipality = (azaCode: string): { prefecture: string, municipality: s
   }
 }
 
+const numInKanji = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
+
 export const search = (term: string): AzaMetaWithName[] => {
-  const resultLeafs = gatherLeafs(walkTree(addresses as AzaTree, term.split(''))).map((leaf) => {
-    const { prefecture, municipality } = getMunicipality(leaf.id)
-    return { ...leaf, name: term + leaf.name, editDistance: leaf.name.length, prefecture, municipality }
+  const sanitizedTerm = term.replace(/([\d０-９]{1,2})(丁目|条|$)/g, (_match, nums: string, suffix) => {
+    const normalizedNumString = nums.split('').map(numString => numString.charCodeAt(0) >= "０".charCodeAt(0) ? String.fromCharCode(numString.charCodeAt(0) - 0xFEE0) : numString)
+    if (normalizedNumString.length == 2) {
+      return ['十', '二十', '三十', '四十'][Number(normalizedNumString[0]) - 1] + numInKanji[Number(normalizedNumString[1])] + suffix
+    } else {
+      return numInKanji[Number(normalizedNumString)] + suffix
+    }
   })
 
-  const resultLeafsWithOhaza = gatherLeafs(walkTree(addresses as AzaTree, ('大字' + term).split(''))).map((leaf) => {
+  const resultLeafs = gatherLeafs(walkTree(addresses as AzaTree, sanitizedTerm.split(''))).map((leaf) => {
     const { prefecture, municipality } = getMunicipality(leaf.id)
-    return { ...leaf, name: '大字' + term + leaf.name, editDistance: leaf.name.length, prefecture, municipality }
+    return { ...leaf, name: sanitizedTerm + leaf.name, editDistance: leaf.name.length, prefecture, municipality }
+  })
+
+  const resultLeafsWithOhaza = gatherLeafs(walkTree(addresses as AzaTree, ('大字' + sanitizedTerm).split(''))).map((leaf) => {
+    const { prefecture, municipality } = getMunicipality(leaf.id)
+    return { ...leaf, name: '大字' + sanitizedTerm + leaf.name, editDistance: leaf.name.length, prefecture, municipality }
   })
 
   return [...resultLeafs, ...resultLeafsWithOhaza].sort((a, b) => {
