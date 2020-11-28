@@ -9,6 +9,8 @@ export type AzaTree = {
 
 export interface AzaMeta {
   id: string
+  postalCodes: string[]
+  postalCode?: string
   latitude: number
   longitude: number
 }
