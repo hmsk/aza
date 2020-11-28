@@ -81,12 +81,12 @@ export const search = (term: string): AzaMetaWithName[] => {
 
   const resultLeafs = gatherLeafs(walkTree(addresses as AzaTree, sanitizedTerm.split(''))).map((leaf) => {
     const { prefecture, municipality } = getMunicipality(leaf.id)
-    return { ...leaf, name: sanitizedTerm + leaf.name, editDistance: leaf.name.length, prefecture, municipality }
+    return { ...leaf, name: sanitizedTerm + leaf.name, editDistance: leaf.name.length, postalCodes: leaf.postalCodes, prefecture, municipality }
   })
 
   const resultLeafsWithOhaza = gatherLeafs(walkTree(addresses as AzaTree, ('大字' + sanitizedTerm).split(''))).map((leaf) => {
     const { prefecture, municipality } = getMunicipality(leaf.id)
-    return { ...leaf, name: '大字' + sanitizedTerm + leaf.name, editDistance: leaf.name.length, prefecture, municipality }
+    return { ...leaf, name: '大字' + sanitizedTerm + leaf.name, editDistance: leaf.name.length, postalCodes: leaf.postalCodes, prefecture, municipality }
   })
 
   return [...resultLeafs, ...resultLeafsWithOhaza].sort((a, b) => {

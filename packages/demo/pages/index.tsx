@@ -23,7 +23,7 @@ const Index: FunctionComponent = () => {
       <p>Total: { loading ? "Loading..." : result.length}</p>
       <ul>
         { result.map(res => {
-          return <li key={res.id}>{res.name}（{res.prefecture} {res.municipality}）</li>
+          return <li key={res.id}>{res.name}（{res.postalCodes.length === 1 ? '〒' + res.postalCodes[0] : '郵便番号がひとつじゃないよ' } {res.prefecture} {res.municipality}）</li>
         })}
       </ul>
     </div>
