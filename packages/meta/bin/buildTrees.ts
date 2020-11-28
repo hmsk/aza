@@ -6,6 +6,7 @@ import type { AzaMeta, AzaTree, PrefectureTree } from '../src'
 
 const ORIGINAL_DATA_FILE = join(__dirname, '..', 'src/vendor/japanese-addresses/data/latest.csv')
 const SANITIZED_KEN_ALL_FILE = join(__dirname, '..', 'src/vendor/x-ken-all.csv')
+const SUPPLIMENTAL_KEN_ALL_FILE = join(__dirname, '..', 'src/supplemental-ken-all.csv')
 const AZA_TREE_FILE = join(__dirname, '..', 'src/vendor/japanese-addresses-aza.json')
 const MUNICIPALITY_TREE_FILE = join(__dirname, '..', 'src/vendor/japanese-addresses-municipality.json')
 
@@ -40,6 +41,20 @@ const prepareKenAll = (): Promise<PostalInfo> => {
   })
 }
 
+const preparation: Promise<PostalInfo> = prepareKenAll().then((basePostalInfo) => {
+  return new Promise((resolve) => {
+    const postalInfo: PostalInfo = basePostalInfo
+    createReadStream(SUPPLIMENTAL_KEN_ALL_FILE)
+      .pipe(csv())
+      .on('data', (line: SanitizedKenAll) => {
+        postalInfo.push({ municipalityCode: line['市区町村コード'], aza: line['大字'], postalCode: line['郵便番号'] })
+      })
+      .on('end', () => {
+        resolve(postalInfo)
+      })
+  })
+})
+
 interface JapaneseAddress {
   '都道府県コード': string
   '都道府県名': string
@@ -70,7 +85,7 @@ const appendTree = (branch: AzaTree, [head, ...rest]: string[], leafMeta: AzaMet
 const tree: AzaTree = {}
 const prefectures: PrefectureTree = {}
 
-prepareKenAll().then((postalInfo: PostalInfo) => {
+preparation.then((postalInfo: PostalInfo) => {
   const municipalityFiltered = new Map()
   let fallbackNum = 0
   let multipleNum = 0
