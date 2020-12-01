@@ -18,8 +18,12 @@ const Index: FunctionComponent = () => {
 
   return(
     <div>
-      <h1>aza demo</h1>
-      <input type="text" value={term} onChange={e => setTerm(e.currentTarget.value)} />
+      <h1 className="text-4xl">aza demo</h1>
+      <input
+        className="border border-current rounded"
+        type="text"
+        value={term}
+        onChange={e => setTerm(e.currentTarget.value)} />
       <p>Total: { loading ? "Loading..." : result.length}</p>
       <ul>
         { result.map(res => {
