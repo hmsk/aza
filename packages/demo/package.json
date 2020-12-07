@@ -29,6 +29,9 @@
     "tailwindcss": "^2.0.1"
   },
   "devDependencies": {
-    "@types/react": "^17.0.0"
+    "@babel/core": "^7.12.9",
+    "@babel/preset-react": "^7.12.7",
+    "@types/react": "^17.0.0",
+    "frontmatter-markdown-loader": "^3.6.2"
   }
 }
