@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { AzaMetaWithName } from 'aza-meta'
+import type { AzaMetaWithName } from 'aza-meta'
 
 import FormattedPostalCode from '../components/FormattedPostalCode'
 

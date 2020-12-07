@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { AzaMetaWithName } from 'aza-meta'
+import type { AzaMetaWithName } from 'aza-meta'
 import { react as ArticleIndex } from '../articles/index.md'
 
 import InputAza from '../components/InputAza'
