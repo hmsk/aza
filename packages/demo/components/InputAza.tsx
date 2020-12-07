@@ -78,7 +78,7 @@ const InputAza: FunctionComponent<{
           { candidates.map((res, i) => {
             return (
               <div
-                className={`py-2 pl-2 pr-4 cursor-pointer${cursor == i ? ' bg-indigo-100' : '' }`}
+                className={`py-2 pl-2 pr-4 cursor-pointer${cursor == i ? ' bg-indigo-100' : '' } hover:bg-indigo-100`}
                 onClick={() => selectFromCandidate(res)}
                 key={`${res.id}-${i}`}>
                 <div>
