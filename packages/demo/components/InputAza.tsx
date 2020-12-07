@@ -7,20 +7,60 @@ const InputAza: FunctionComponent<{
   aza: AzaMetaWithName
   onSelectAza: (aza: AzaMetaWithName) => void
 }> = ({ onSelectAza }) => {
-  const [result, setResult] = useState<AzaMetaWithName[]>([])
+  const [candidates, setCandidates] = useState<AzaMetaWithName[]>([])
   const [term, setTerm] = useState('白金台')
-  const [loading, setLoading] = useState(false)
+  const [isVisibleCandidates, setVisibilityOfCandidates] = useState(false)
+  const [cursor, setCursor] = useState(0)
 
-  useEffect(() => {
-    setLoading(true)
-    onSelectAza(null)
-    fetch(`/api/search?term=${term}`)
+  const fetchCandidates = async (searchTerm: string) => {
+    fetch(`/api/search?term=${searchTerm}`)
       .then(res => res.json())
       .then(({ result }: { result: AzaMetaWithName[] }) => {
-        setResult(result)
-        setLoading(false)
+        const candidatesToShow = []
+        result.forEach((candidate) => {
+          if (candidate.name === term || candidatesToShow.length <= 5) {
+            candidatesToShow.push(candidate)
+          }
+        })
+        setCandidates(candidatesToShow)
+        setCursor(0)
       })
+  }
+
+  useEffect(() => {
+    fetchCandidates(term)
   }, [term])
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (event.key === "ArrowDown") {
+      const nextCursor = cursor == candidates.length - 1 ? 0 : cursor + 1
+      setCursor(nextCursor)
+      event.preventDefault()
+    }
+    if (event.key === "ArrowUp") {
+      const nextCursor = cursor == 0 ? candidates.length - 1 : cursor - 1
+      setCursor(nextCursor)
+      event.preventDefault()
+    }
+    if (event.key === "Enter" && isVisibleCandidates && candidates[cursor]) {
+      selectFromCandidate(candidates[cursor])
+      setVisibilityOfCandidates(false)
+    }
+  }
+
+  const selectFromCandidate = (selected: AzaMetaWithName): void => {
+    setVisibilityOfCandidates(false)
+    setTerm(selected.name)
+    onSelectAza(selected)
+  }
+
+  const updateSearchTerm = (newTerm: string): void => {
+    if (term !== newTerm) {
+      setVisibilityOfCandidates(true)
+      setTerm(newTerm)
+      onSelectAza(null)
+    }
+  }
 
   return (
     <>
@@ -29,20 +69,23 @@ const InputAza: FunctionComponent<{
         className="flex-1 border border-current border-indigo-300 rounded h-10 mt-2 pl-2"
         type="text"
         value={term}
-        onChange={e => setTerm(e.currentTarget.value)}
+        onChange={e => updateSearchTerm(e.currentTarget.value)}
+        onFocus={() => setVisibilityOfCandidates(true)}
+        onKeyDown={handleKeyPress}
         placeholder="町丁目（例: 白金台五丁目）" />
-      { result.length >= 0 && !loading ?
+      { isVisibleCandidates && candidates.length >= 0 ?
         <div className="mt-1 border shadow-md rounded absolute bg-white mt-14">
-          { result.map(res => {
+          { candidates.map((res, i) => {
             return (
               <div
-                className="py-2 pl-2 pr-4 cursor-pointer hover:bg-indigo-100"
-                onClick={() => onSelectAza(res)} key={res.id}>
+                className={`py-2 pl-2 pr-4 cursor-pointer${cursor == i ? ' bg-indigo-100' : '' }`}
+                onClick={() => selectFromCandidate(res)}
+                key={`${res.id}-${i}`}>
                 <div>
                   {
                     res.postalCodes.length === 1 ?
                     <FormattedPostalCode postalCode={res.postalCodes[0]} /> :
-                    <FormattedPostalCode postalCode='???-?????' />
+                    <FormattedPostalCode postalCode='???????' />
                   }
                 </div>
                 <div>
