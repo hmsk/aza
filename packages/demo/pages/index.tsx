@@ -6,7 +6,7 @@ import InputAza from '../components/InputAza'
 import FormattedPostalCode from '../components/FormattedPostalCode'
 
 const Index: FunctionComponent = () => {
-  const [selected, setSelectedAza] = useState<AzaMetaWithName>(null)
+  const [selected, setSelectedAza] = useState<AzaMetaWithName | null>(null)
 
   return(
     <div className="min-h-screen">

@@ -4,8 +4,8 @@ import type { AzaMetaWithName } from 'aza-meta'
 import FormattedPostalCode from '../components/FormattedPostalCode'
 
 const InputAza: FunctionComponent<{
-  aza: AzaMetaWithName
-  onSelectAza: (aza: AzaMetaWithName) => void
+  aza: AzaMetaWithName | null
+  onSelectAza: (aza: AzaMetaWithName | null) => void
 }> = ({ onSelectAza }) => {
   const [candidates, setCandidates] = useState<AzaMetaWithName[]>([])
   const [term, setTerm] = useState('白金台')
@@ -16,7 +16,7 @@ const InputAza: FunctionComponent<{
     fetch(`/api/search?term=${searchTerm}`)
       .then(res => res.json())
       .then(({ result }: { result: AzaMetaWithName[] }) => {
-        const candidatesToShow = []
+        const candidatesToShow: AzaMetaWithName[] = []
         result.forEach((candidate) => {
           if (candidate.name === term || candidatesToShow.length <= 5) {
             candidatesToShow.push(candidate)
