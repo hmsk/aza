@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useRef, useState } from 'react'
 import type { AzaMetaWithName } from 'aza-meta'
 import { react as ArticleIndex } from '../articles/index.md'
 
@@ -7,6 +7,15 @@ import FormattedPostalCode from '../components/FormattedPostalCode'
 
 const Index: FunctionComponent = () => {
   const [selected, setSelectedAza] = useState<AzaMetaWithName | null>(null)
+  const banchi = useRef<HTMLInputElement>(null)
+
+  const updateAddress = (aza: AzaMetaWithName | null) => {
+    setSelectedAza(aza)
+    if (aza !== null) {
+      banchi.current?.focus()
+    }
+  }
+
 
   return(
     <div className="min-h-screen">
@@ -25,9 +34,10 @@ const Index: FunctionComponent = () => {
                 }
               </div>
               <div className="flex w-full">
-                <InputAza aza={selected} onSelectAza={setSelectedAza} />
+                <InputAza aza={selected} onSelectAza={updateAddress} />
                 <input
                   type="text"
+                  ref={banchi}
                   className="border border-current border-indigo-300 rounded h-10 mt-2 pl-2 ml-2"
                   placeholder="番地（例: 12-5）"
                 />
