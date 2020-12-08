@@ -39,7 +39,7 @@ const InputAza: FunctionComponent<{
 
         const candidatesToShow: AzaMetaWithName[] = []
         result.forEach((candidate) => {
-          if (candidate.name === term || candidatesToShow.length <= 5) {
+          if (candidate.name === term || candidate.name === `大字${term}` || candidatesToShow.length <= 5) {
             candidatesToShow.push(candidate)
           }
         })
