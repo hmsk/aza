@@ -13,10 +13,29 @@ const InputAza: FunctionComponent<{
   const [cursor, setCursor] = useState(0)
   const [isComposing, setIsComposing] = useState(false)
 
+  const useDebounce = (value: string) => {
+    const [debouncedValue, setDebouncedValue] = useState(value)
+    useEffect(() => {
+      const handler = setTimeout(() => {
+        setDebouncedValue(value)
+      }, 500)
+
+      return () => {
+        clearTimeout(handler)
+      }
+    }, [value])
+
+    return debouncedValue
+  }
+
+  const debounced = useDebounce(term)
+
   const fetchCandidates = async (searchTerm: string) => {
     fetch(`/api/search?term=${searchTerm}`)
       .then(res => res.json())
       .then(({ result }: { result: AzaMetaWithName[] }) => {
+        if (searchTerm !== term) return
+
         const candidatesToShow: AzaMetaWithName[] = []
         result.forEach((candidate) => {
           if (candidate.name === term || candidatesToShow.length <= 5) {
@@ -29,8 +48,8 @@ const InputAza: FunctionComponent<{
   }
 
   useEffect(() => {
-    fetchCandidates(term)
-  }, [term])
+    fetchCandidates(debounced)
+  }, [debounced])
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     if (isComposing) return
