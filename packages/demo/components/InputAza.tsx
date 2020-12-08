@@ -86,6 +86,13 @@ const InputAza: FunctionComponent<{
     }
   }
 
+  const hideCandidatesAfterABit = (): void => {
+    // Immediate hiding of candidates can't handle its onClick event
+    setTimeout(() => {
+      setVisibilityOfCandidates(false)
+    }, 100)
+  }
+
   return (
     <>
       <input
@@ -97,6 +104,7 @@ const InputAza: FunctionComponent<{
         onChange={e => updateSearchTerm(e.currentTarget.value)}
         onFocus={() => setVisibilityOfCandidates(true)}
         onKeyDown={handleKeyPress}
+        onBlur={hideCandidatesAfterABit}
         onCompositionStart={() => setIsComposing(true)}
         onCompositionEnd={() => setIsComposing(false)}
         placeholder="町丁目（例: 白金台五丁目）" />
