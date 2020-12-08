@@ -11,6 +11,7 @@ const InputAza: FunctionComponent<{
   const [term, setTerm] = useState('白金台')
   const [isVisibleCandidates, setVisibilityOfCandidates] = useState(false)
   const [cursor, setCursor] = useState(0)
+  const [isComposing, setIsComposing] = useState(false)
 
   const fetchCandidates = async (searchTerm: string) => {
     fetch(`/api/search?term=${searchTerm}`)
@@ -32,6 +33,8 @@ const InputAza: FunctionComponent<{
   }, [term])
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (isComposing) return
+
     if (event.key === "ArrowDown") {
       const nextCursor = cursor == candidates.length - 1 ? 0 : cursor + 1
       setCursor(nextCursor)
@@ -72,6 +75,8 @@ const InputAza: FunctionComponent<{
         onChange={e => updateSearchTerm(e.currentTarget.value)}
         onFocus={() => setVisibilityOfCandidates(true)}
         onKeyDown={handleKeyPress}
+        onCompositionStart={() => setIsComposing(true)}
+        onCompositionEnd={() => setIsComposing(false)}
         placeholder="町丁目（例: 白金台五丁目）" />
       { isVisibleCandidates && candidates.length >= 0 ?
         <div className="mt-1 border shadow-md rounded absolute bg-white mt-14">
