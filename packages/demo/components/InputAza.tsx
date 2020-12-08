@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import type { AzaMetaWithName } from 'aza-meta'
 
 import FormattedPostalCode from '../components/FormattedPostalCode'
@@ -12,6 +12,7 @@ const InputAza: FunctionComponent<{
   const [isVisibleCandidates, setVisibilityOfCandidates] = useState(false)
   const [cursor, setCursor] = useState(0)
   const [isComposing, setIsComposing] = useState(false)
+  const field = useRef<HTMLInputElement>(null)
 
   const useDebounce = (value: string) => {
     const [debouncedValue, setDebouncedValue] = useState(value)
@@ -44,6 +45,7 @@ const InputAza: FunctionComponent<{
         })
         setCandidates(candidatesToShow)
         setCursor(0)
+        if (document.activeElement === field.current) setVisibilityOfCandidates(true)
       })
   }
 
@@ -78,7 +80,7 @@ const InputAza: FunctionComponent<{
 
   const updateSearchTerm = (newTerm: string): void => {
     if (term !== newTerm) {
-      setVisibilityOfCandidates(true)
+      setVisibilityOfCandidates(false)
       setTerm(newTerm)
       onSelectAza(null)
     }
@@ -88,6 +90,7 @@ const InputAza: FunctionComponent<{
     <>
       <input
         id="address-aza"
+        ref={field}
         className="flex-1 border border-current border-indigo-300 rounded h-10 mt-2 pl-2"
         type="text"
         value={term}
