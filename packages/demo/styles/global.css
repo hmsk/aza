@@ -2,3 +2,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .article h1 {
+    @apply text-2xl
+  }
+
+  .article h2 {
+    @apply text-xl
+  }
+
+  .article li {
+    @apply list-disc ml-6
+  }
+
+  .article p {
+    @apply my-4 text-base font-sans leading-relaxed
+  }
+
+  .article pre {
+    @apply bg-indigo-100 p-4
+  }
+
+  .article p > code {
+    @apply bg-indigo-100 py-1 px-2
+  }
+}
