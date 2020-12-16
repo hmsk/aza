@@ -51,7 +51,7 @@ const Index: FunctionComponent = () => {
           </div>
         </div>
         <div className="flex-1 border-l-2 border-indigo-100 min-h-screen">
-          <div className="pt-12 px-12 lg:overflow-y-auto lg:max-h-screen">
+          <div className="pt-12 px-4 lg:px-12 lg:overflow-y-auto lg:max-h-screen">
             <ArticleIndex />
           </div>
         </div>
