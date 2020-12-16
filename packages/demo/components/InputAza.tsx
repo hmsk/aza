@@ -98,7 +98,7 @@ const InputAza: FunctionComponent<{
       <input
         id="address-aza"
         ref={field}
-        className="flex-1 border border-current border-indigo-300 rounded h-10 mt-2 pl-2"
+        className="border border-current border-indigo-300 rounded h-10 mt-2 pl-2 w-full"
         type="text"
         value={term}
         onChange={e => updateSearchTerm(e.currentTarget.value)}
@@ -109,7 +109,7 @@ const InputAza: FunctionComponent<{
         onCompositionEnd={() => setIsComposing(false)}
         placeholder="町丁目（例: 白金台五丁目）" />
       { isVisibleCandidates && candidates.length >= 0 ?
-        <div className="mt-1 border shadow-md rounded absolute bg-white mt-14">
+        <div className="mt-1 border shadow-md rounded absolute bg-white">
           { candidates.map((res, i) => {
             return (
               <div
