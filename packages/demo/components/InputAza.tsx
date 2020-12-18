@@ -94,7 +94,7 @@ const InputAza: FunctionComponent<{
   }
 
   return (
-    <>
+    <div className="relative">
       <input
         id="address-aza"
         ref={field}
@@ -109,7 +109,7 @@ const InputAza: FunctionComponent<{
         onCompositionEnd={() => setIsComposing(false)}
         placeholder="町丁目（例: 白金台五丁目）" />
       { isVisibleCandidates && candidates.length >= 0 ?
-        <div className="mt-1 border shadow-md rounded absolute bg-white">
+        <div className="mt-1 border shadow-md rounded absolute bg-white w-full">
           { candidates.map((res, i) => {
             return (
               <div
@@ -117,14 +117,14 @@ const InputAza: FunctionComponent<{
                 onClick={() => selectFromCandidate(res)}
                 key={`${res.id}-${i}`}>
                 <div>
-                  {
-                    res.postalCodes.length === 1 ?
-                    <FormattedPostalCode postalCode={res.postalCodes[0]} /> :
-                    <FormattedPostalCode postalCode='???????' />
-                  }
-                </div>
-                <div>
-                  { res.prefecture }{ res.municipality }
+                  <span className="text-sm">
+                    {
+                      res.postalCodes.length === 1 ?
+                      <FormattedPostalCode postalCode={res.postalCodes[0]} /> :
+                      <FormattedPostalCode postalCode='???????' />
+                    }&nbsp;
+                  </span>
+                  <span>{ res.prefecture }{ res.municipality }&nbsp;</span>
                   <strong>{ res.name }</strong>
                 </div>
               </div>
@@ -132,7 +132,7 @@ const InputAza: FunctionComponent<{
           })}
         </div> : ""
       }
-    </>
+    </div>
   )
 }
 
