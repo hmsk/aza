@@ -90,7 +90,7 @@ const InputAza: FunctionComponent<{
     // Immediate hiding of candidates can't handle its onClick event
     setTimeout(() => {
       setVisibilityOfCandidates(false)
-    }, 100)
+    }, 300)
   }
 
   return (
