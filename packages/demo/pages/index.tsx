@@ -20,7 +20,7 @@ const Index: FunctionComponent = () => {
   return(
     <div className="min-h-screen">
       <div className="flex flex-col lg:flex-row w-full">
-        <div className="flex-1 py-24 bg-indigo-50">
+        <div className="flex-1 py-12 lg:py-24 bg-indigo-50">
           <div className="border shadow-md bg-white rounded mx-4 lg:w-3/4 lg:m-auto p-4">
             <h2>商品の配送先</h2>
             <div>
@@ -51,7 +51,7 @@ const Index: FunctionComponent = () => {
           </div>
         </div>
         <div className="flex-1 border-l-2 border-indigo-100 min-h-screen">
-          <div className="pt-12 px-4 lg:px-12 lg:overflow-y-auto lg:max-h-screen">
+          <div className="py-8 lg:py-24 px-4 lg:px-12 lg:overflow-y-auto lg:max-h-screen">
             <ArticleIndex />
           </div>
         </div>
