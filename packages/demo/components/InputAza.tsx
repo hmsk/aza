@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { AzaMetaWithName } from 'aza-meta'
 
 import FormattedPostalCode from '../components/FormattedPostalCode'
 
-const InputAza: FunctionComponent<{
+const InputAza: React.FC<{
   aza: AzaMetaWithName | null
   onSelectAza: (aza: AzaMetaWithName | null) => void
 }> = ({ onSelectAza }) => {
@@ -31,11 +31,12 @@ const InputAza: FunctionComponent<{
 
   const debounced = useDebounce(term)
 
-  const fetchCandidates = async (searchTerm: string) => {
-    fetch(`/api/search?term=${searchTerm}`)
+  const fetchCandidates = useCallback(() => {
+    if (debounced === '') return
+    fetch(`/api/search?term=${debounced}`)
       .then(res => res.json())
       .then(({ result }: { result: AzaMetaWithName[] }) => {
-        if (searchTerm !== term) return
+        if (debounced !== term) return
 
         const candidatesToShow: AzaMetaWithName[] = []
         result.forEach((candidate) => {
@@ -47,26 +48,26 @@ const InputAza: FunctionComponent<{
         setCursor(0)
         if (document.activeElement === field.current) setVisibilityOfCandidates(true)
       })
-  }
+  }, [debounced, term])
 
   useEffect(() => {
-    fetchCandidates(debounced)
-  }, [debounced])
+    fetchCandidates()
+  }, [fetchCandidates, debounced])
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     if (isComposing) return
 
-    if (event.key === "ArrowDown") {
+    if (event.key === 'ArrowDown') {
       const nextCursor = cursor == candidates.length - 1 ? 0 : cursor + 1
       setCursor(nextCursor)
       event.preventDefault()
     }
-    if (event.key === "ArrowUp") {
+    if (event.key === 'ArrowUp') {
       const nextCursor = cursor == 0 ? candidates.length - 1 : cursor - 1
       setCursor(nextCursor)
       event.preventDefault()
     }
-    if (event.key === "Enter" && isVisibleCandidates && candidates[cursor]) {
+    if (event.key === 'Enter' && isVisibleCandidates && candidates[cursor]) {
       selectFromCandidate(candidates[cursor])
       setVisibilityOfCandidates(false)
     }
@@ -130,7 +131,7 @@ const InputAza: FunctionComponent<{
               </div>
             )
           })}
-        </div> : ""
+        </div> : <></>
       }
     </div>
   )

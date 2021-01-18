@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import type { AzaMetaWithName } from 'aza-meta'
 import { react as ArticleIndex } from '../articles/index.md'
 
 import InputAza from '../components/InputAza'
 import FormattedPostalCode from '../components/FormattedPostalCode'
 
-const Index: FunctionComponent = () => {
+const Index: React.FC = () => {
   const [selected, setSelectedAza] = useState<AzaMetaWithName | null>(null)
   const banchi = useRef<HTMLInputElement>(null)
 
@@ -15,7 +15,6 @@ const Index: FunctionComponent = () => {
       banchi.current?.focus()
     }
   }
-
 
   return(
     <div className="min-h-screen">
@@ -30,7 +29,7 @@ const Index: FunctionComponent = () => {
                     <FormattedPostalCode postalCode={selected.postalCodes[0]} />
                     &nbsp;{selected.prefecture}{selected.municipality}
                   </> :
-                  "市区町村以前の入力は必要ありません"
+                  '市区町村以前の入力は必要ありません'
                 }
               </div>
               <form className="w-full">

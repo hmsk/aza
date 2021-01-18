@@ -1,8 +1,8 @@
 import Head from 'next/head'
-import { AppProps } from 'next/dist/next-server/lib/router/router'
+import { AppProps } from 'next/app'
 import '../styles/global.css'
 
-function AzaDemo({ Component, pageProps }: AppProps) {
+const AzaDemo:React.FC<AppProps> = ({ Component, pageProps }) => {
   return <>
     <Head>
       <title>Aza: 日本の住所情報入力のインタフェースについて考える</title>
