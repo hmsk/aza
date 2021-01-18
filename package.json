@@ -6,11 +6,17 @@
     "build:meta": "yarn --cwd packages/meta run build",
     "dev:meta": "yarn --cwd packages/meta run dev",
     "dev:demo": "yarn --cwd packages/demo run dev",
+    "lint:demo": "yarn --cwd packages/demo run lint:all",
     "vercel": "./vercel-submodule-workaround.sh && lerna run build"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "4.13.0",
+    "@typescript-eslint/parser": "4.13.0",
+    "eslint": "7.18.0",
     "lerna": "^3.22.1",
     "typescript": "^4.0.2"
   },
-  "workspaces": ["packages/*"]
+  "workspaces": [
+    "packages/*"
+  ]
 }
