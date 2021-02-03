@@ -19,6 +19,8 @@
     "build": "npm run build:tree && npm run build:module",
     "build:module": "rollup -c",
     "build:tree": "ts-node bin/buildTrees.ts",
+    "lint": "eslint --ext js,ts --max-warnings 0",
+    "lint:all": "yarn lint .",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {

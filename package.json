@@ -6,7 +6,9 @@
     "build:meta": "yarn --cwd packages/meta run build",
     "dev:meta": "yarn --cwd packages/meta run dev",
     "dev:demo": "yarn --cwd packages/demo run dev",
+    "lint:meta": "yarn --cwd packages/meta run lint:all",
     "lint:demo": "yarn --cwd packages/demo run lint:all",
+    "lint:all": "yarn lint:meta && yarn lint:demo",
     "vercel": "./vercel-submodule-workaround.sh && lerna run build"
   },
   "devDependencies": {
