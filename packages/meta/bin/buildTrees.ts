@@ -111,7 +111,7 @@ preparation.then((postalInfo: PostalInfo) => {
         (info: PostalInfo[number]) => info.aza === line['大字町丁目名'].replace(/[一二三四五六七八九十]+丁目$/, '').replace(/^字/, '')
       ]
 
-      for (let cond of conditions) {
+      for (const cond of conditions) {
         postalCodes = filteredPostalInfo.data.filter(info => (cond(info))).map(info => info.postalCode)
         if (postalCodes.length > 0) break
       }
